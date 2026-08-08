@@ -34,12 +34,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 class IndexManager:
 
     def __init__(self):
-
         self.inverted_index = defaultdict(list)
+        self.document_lengths = {}
+
 
         self.document_frequency = {}
 
-        self.document_lengths = {}
 
         self.documents = {}
 
@@ -71,6 +71,9 @@ class IndexManager:
     # ------------------------------------------------------
 
     def build_inverted_index(self, documents):
+        self.inverted_index = defaultdict(list)
+        self.document_frequency = {}
+        self.document_lengths = {}
         """
         Create:
 
