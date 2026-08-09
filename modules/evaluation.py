@@ -281,57 +281,40 @@ class IREvaluator:
 
 
     def MAP(
-            self,
-            queries
+        self,
+        queries
     ):
         """
+        Mean Average Precision.
+
         queries format:
 
-
         [
-
-        {
-        retrieved:[...],
-        relevant:[...]
-        }
-
+            {
+                "retrieved": [5, 2, 8, 1, 7],
+                "relevant": [2, 7]
+            }
         ]
 
         """
 
-
-        scores=[]
-
-
+        scores = []
 
         for query in queries:
 
-
-            scores.append(
-
-                self.average_precision(
-
-                    query["retrieved"],
-
-                    query["relevant"]
-
-                )
-
+            score = self.average_precision(
+                query["retrieved"],
+                query["relevant"]
             )
 
+            scores.append(score)
 
+        if not scores:
+            return 0
 
         return round(
-
-            sum(scores)
-            /
-            max(
-                len(scores),
-                1
-            ),
-
+            sum(scores) / len(scores),
             4
-
         )
 
 
@@ -342,32 +325,36 @@ class IREvaluator:
 
 
     def MRR(
-            self,
-            ranked_results,
-            relevant
+        self,
+        ranked_results,
+        relevant
     ):
         """
-        Position of first
-        relevant result.
+        Reciprocal rank of the first
+        relevant retrieved document.
+
+        ranked_results:
+            [5, 2, 8, 1, 7]
+
+        relevant:
+            [2, 7]
+
+        First relevant document is 2,
+        which occurs at position 2.
+
+        MRR = 1 / 2 = 0.5
         """
 
+        relevant_set = set(relevant)
 
-        for i, doc in enumerate(
-                ranked_results
-        ):
+        for i, doc_id in enumerate(ranked_results):
 
-
-            if doc in relevant:
-
+            if doc_id in relevant_set:
 
                 return round(
-
-                    1/(i+1),
-
+                    1 / (i + 1),
                     4
-
                 )
-
 
         return 0
 

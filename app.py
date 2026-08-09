@@ -922,19 +922,52 @@ elif page == "Evaluation":
 
         st.subheader("Ranking Quality Metrics")
 
+        map_score = evaluation.MAP([
+            {
+                "retrieved": retrieved_ids,
+                "relevant": relevant_ids
+            }
+        ])
+
+        mrr_score = evaluation.MRR(
+            retrieved_ids,
+            relevant_ids
+        )
+
+        relevance_scores = {}
+
+        for doc_id in retrieved_ids:
+
+            if doc_id in relevant_ids:
+                relevance_scores[doc_id] = 1
+            else:
+                relevance_scores[doc_id] = 0
+
+        ndcg_score = evaluation.NDCG(
+            retrieved_ids,
+            relevance_scores,
+            len(retrieved_ids)
+        )
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
-
-            st.metric("MAP", "Calculated during batch evaluation")
+            st.metric(
+                "MAP",
+                f"{map_score:.4f}"
+            )
 
         with col2:
-
-            st.metric("MRR", "First relevant result")
+            st.metric(
+                "MRR",
+                f"{mrr_score:.4f}"
+            )
 
         with col3:
-
-            st.metric("NDCG", "Ranking quality")
+            st.metric(
+                "NDCG",
+                f"{ndcg_score:.4f}"
+            )
 
 
 # ------------------------------------------------------
