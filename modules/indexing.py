@@ -18,7 +18,7 @@ import pickle
 from collections import defaultdict
 import nltk
 import logging
-logging.basicConfig(filename="app.log", level=logging.INFO)
+# logging.basicConfig(filename="app.log", level=logging.INFO)
 
 nltk.download('punkt')
 nltk.download('punkt_tab')
@@ -107,7 +107,7 @@ class IndexManager:
             self.document_lengths[doc_id] = len(tokens)
 
             unique_terms = set(tokens)
-            logging.info(unique_terms)
+            # logging.info(unique_terms)
 
             for term in unique_terms:
 

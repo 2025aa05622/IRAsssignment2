@@ -29,8 +29,8 @@ HEADERS = {"User-Agent": USER_AGENT}
 
 import logging
 
-logging.basicConfig(filename="app.log", level=logging.INFO)
-logging.info("crawler started")
+# logging.basicConfig(filename="app.log", level=logging.INFO)
+# logging.info("crawler started")
 
 
 class WebCrawler:
@@ -194,7 +194,7 @@ class WebCrawler:
         queue = deque((url, 0) for url in seed_urls)
         crawled_documents = []
 
-        logging.info("Crawler started")
+        # logging.info("Crawler started")
 
         while queue and self.total_pages < max_pages:
 
@@ -208,7 +208,7 @@ class WebCrawler:
 
             self.visited_urls.add(url)
 
-            logging.info(f"Crawling {url} (depth={depth})")
+            # logging.info(f"Crawling {url} (depth={depth})")
 
             html = self.download_page(url)
 
@@ -239,7 +239,7 @@ class WebCrawler:
 
             self.total_pages += 1
 
-            logging.info(f"{url} -> {len(links)} outgoing links")
+            # logging.info(f"{url} -> {len(links)} outgoing links")
 
             if depth < max_depth:
 
@@ -248,9 +248,9 @@ class WebCrawler:
                     if link not in self.visited_urls:
                         queue.append((link, depth + 1))
 
-        logging.info(
-            f"Finished crawling. Documents={len(crawled_documents)}"
-        )
+        # logging.info(
+        #     f"Finished crawling. Documents={len(crawled_documents)}"
+        # )
 
         return {
             "pages": self.total_pages,

@@ -33,17 +33,17 @@ from modules.recommender import ContentBasedRecommender
 from modules.search_engine import SearchEngine
 from modules.visualization import IRVisualizer
 
-logging.basicConfig(
-    filename="app.log",
-    filemode="w",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+# #logging.basicConfig(
+#     filename="app.log",
+#     filemode="w",
+#     level=logging.INFO,
+#     format="%(asctime)s - %(levelname)s - %(message)s"
+# )
 #logging.info("Application started")
 
 import os
 
-st.write("My log file is located at:", os.path.abspath("app.log"))
+#st.write("My log file is located at:", os.path.abspath("app.log"))
 # ------------------------------------------------------
 # Page Configuration
 # ------------------------------------------------------
@@ -846,7 +846,11 @@ elif page == "Evaluation":
         results against ground truth.
         """)
 
-    if not index.documents:
+    if (
+        not index.documents
+        or not st.session_state.search_results
+        or not st.session_state.retrieved_results
+    ):
 
         st.warning("No indexed documents available.")
 

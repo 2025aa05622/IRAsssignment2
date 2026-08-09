@@ -24,7 +24,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from rapidfuzz import process, fuzz
 import logging
-logging.basicConfig(filename="app.log", level=logging.INFO)
+# logging.basicConfig(filename="app.log", level=logging.INFO)
 
 class SearchEngine:
 
