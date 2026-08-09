@@ -13,6 +13,9 @@
 - IR Evaluation
 - Analytics Dashboard
 
+## Required Python version
+
+3.11
 
 ## Installation
 
