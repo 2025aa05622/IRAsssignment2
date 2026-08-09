@@ -29,8 +29,8 @@ HEADERS = {"User-Agent": USER_AGENT}
 
 import logging
 
-# logging.basicConfig(filename="app.log", level=logging.INFO)
-# logging.info("crawler started")
+logging.basicConfig(filename="app.log", level=logging.INFO)
+logging.info("crawler started")
 
 
 class WebCrawler:
@@ -52,15 +52,23 @@ class WebCrawler:
                 headers=HEADERS,
                 timeout=REQUEST_TIMEOUT,
             )
-
+            
+            if response is not None:
+                logging.info("Response exists!")            
+            else:
+                logging.info("Response does not exist.")
+            
             if response.status_code != 200:
+                logging.info("status code: " + str(response.status_code))
                 return None
 
-            # st.subheader("response.text " + response.text)
-            # logging.info(response.text)
+            logging.info(response.text)
             return response.text
 
-        except Exception:
+        except Exception as e:
+            logging.info("Exception")
+            logging.info("URL: " + url)
+            logging.info("ERROR:" + str(repr(e)))
             return None
 
     # ----------------------------------------------------
@@ -193,8 +201,9 @@ class WebCrawler:
 
         queue = deque((url, 0) for url in seed_urls)
         crawled_documents = []
+        failed_documents = []
 
-        # logging.info("Crawler started")
+        logging.info("Crawler started")
 
         while queue and self.total_pages < max_pages:
 
@@ -208,11 +217,17 @@ class WebCrawler:
 
             self.visited_urls.add(url)
 
-            # logging.info(f"Crawling {url} (depth={depth})")
+            logging.info(f"Crawling {url} (depth={depth})")
 
             html = self.download_page(url)
 
             if html is None:
+                logging.info("html not available")
+                failed_documents.append(
+	        {
+		    "url": url
+		}
+	        )
                 continue
 
             metadata = self.extract_metadata(html, url)
@@ -239,7 +254,7 @@ class WebCrawler:
 
             self.total_pages += 1
 
-            # logging.info(f"{url} -> {len(links)} outgoing links")
+            logging.info(f"{url} -> {len(links)} outgoing links")
 
             if depth < max_depth:
 
@@ -256,4 +271,5 @@ class WebCrawler:
             "pages": self.total_pages,
             "visited": len(self.visited_urls),
             "Documents": crawled_documents,
+            "failed_documents": failed_documents
         }

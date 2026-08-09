@@ -101,6 +101,10 @@ if "documents" not in st.session_state:
 
     st.session_state.documents = []
 
+if "failed_documents" not in st.session_state:
+
+    st.session_state.failed_documents = []
+
 
 if "search_results" not in st.session_state:
 
@@ -326,6 +330,7 @@ elif page == "Crawler":
                 )
 
             documents = result.get("Documents", [])
+            failed_documents = result.get("failed_documents", [])
 
             ####################################################
             # If crawler returned nothing,
@@ -350,6 +355,7 @@ elif page == "Crawler":
                     )
 
             st.session_state.documents = documents
+            st.session_state.failed_documents = failed_documents
 
             st.success(f"""
                 Crawling Completed
@@ -426,6 +432,14 @@ elif page == "Crawler":
 
         with st.expander("Returned Documents"):
             st.json(st.session_state.documents)
+    if st.session_state.documents:
+    	with st.expander("Download failed"):
+            st.json(st.session_state.failed_documents)
+    	
+    	st.dataframe(
+            pd.DataFrame(st.session_state.failed_documents),
+            use_container_width=True,
+    	)
 
 
 # ------------------------------------------------------

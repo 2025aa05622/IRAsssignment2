@@ -63,9 +63,9 @@ MRR
 NDCG
 
 ## Test data url used
-https://www.britannica.com/sports/Cricket-World-Cup	
-https://www.britannica.com/sports/World-Cup-football
 https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/
+https://en.wikipedia.org/wiki/India
+https://en.wikipedia.org/wiki/Women%27s_T20_World_Cup
 
 ## Conclusion
 
