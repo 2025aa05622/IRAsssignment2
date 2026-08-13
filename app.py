@@ -105,6 +105,10 @@ if "failed_documents" not in st.session_state:
 
     st.session_state.failed_documents = []
 
+if "duplicate_documents" not in st.session_state:
+
+    st.session_state.duplicate_documents = 0
+
 
 if "search_results" not in st.session_state:
 
@@ -331,6 +335,7 @@ elif page == "Crawler":
 
             documents = result.get("Documents", [])
             failed_documents = result.get("failed_documents", [])
+            duplicate_documents = result.get("duplicate_documents", [])
 
             ####################################################
             # If crawler returned nothing,
@@ -356,6 +361,7 @@ elif page == "Crawler":
 
             st.session_state.documents = documents
             st.session_state.failed_documents = failed_documents
+            st.session_state.duplicate_documents = duplicate_documents
 
             st.success(f"""
                 Crawling Completed
@@ -399,7 +405,7 @@ elif page == "Crawler":
 
             st.metric(
                 "Duplicates Removed",
-                len(st.session_state.documents) - unique_urls,
+                st.session_state.duplicate_documents,
             )
 
         ###########################################################

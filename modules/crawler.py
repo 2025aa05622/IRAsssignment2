@@ -202,6 +202,7 @@ class WebCrawler:
         queue = deque((url, 0) for url in seed_urls)
         crawled_documents = []
         failed_documents = []
+        duplicate_documents = 0
 
         logging.info("Crawler started")
 
@@ -213,6 +214,7 @@ class WebCrawler:
                 continue
 
             if url in self.visited_urls:
+                duplicate_documents += 1
                 continue
 
             self.visited_urls.add(url)
@@ -224,9 +226,9 @@ class WebCrawler:
             if html is None:
                 logging.info("html not available")
                 failed_documents.append(
-	        {
-		    "url": url
-		}
+            {
+            "url": url
+            }
 	        )
                 continue
 
@@ -271,5 +273,6 @@ class WebCrawler:
             "pages": self.total_pages,
             "visited": len(self.visited_urls),
             "Documents": crawled_documents,
-            "failed_documents": failed_documents
+            "failed_documents": failed_documents,
+            "duplicate_documents": duplicate_documents
         }
